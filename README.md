@@ -1,6 +1,6 @@
 # satellite-tracklet-generator
 
-This repository contains the optical tracklet simulation software developed as part of this thesis. It provides a unified environment for generating synthetic astronomical images of satellite tracklets, combining a PyQt5-based graphical interface with independent Python modules for each simulation stage.
+This repository contains the optical tracklet simulation software developed by Pınar Hazan as part of her MSc thesis. It provides a unified environment for generating synthetic astronomical images of satellite tracklets, combining a PyQt5-based graphical interface with independent Python modules for each simulation stage.
 
 Users input simulation parameters through the GUI, which passes them to the underlying modules responsible for:
 
@@ -9,6 +9,14 @@ Users input simulation parameters through the GUI, which passes them to the unde
 - Image synthesis — rendering the final visual output
 
 The pipeline produces synthetic astronomical images in both FITS and PNG formats, replicating what a telescope's sensor would capture during a satellite transit. Generated images can additionally be imported into Stellarium for visual validation and assessment.
+
+## Software Foundations and Extensions
+
+This project builds upon **SPIMT** and **StellariumRC**, which were adapted for the integrated tracklet simulation workflow.
+
+[SPIMT](https://github.com/Dujunju/SPIMT) is a photon-mapping-based method for generating realistic photometric images of moving targets. Its two-stage workflow—photon tracing and image rendering—considers the telescope tracking mode, point spread function, light sources, and CCD characteristics. Within this project, SPIMT was extended to support satellite trajectory calculations using **SP3 precise-orbit data**, in addition to its original TLE-based workflow.
+
+[StellariumRC](https://github.com/k96e/StellariumRC) provides access to the Stellarium Remote Control API. Its modules were adapted and integrated to display the generated images in Stellarium according to the correct observation time, observer location, and celestial position.
 
 ## Thesis
 
@@ -38,6 +46,21 @@ Thesis link:
 ```
 
 When using this software in academic work, please cite both the thesis and this repository.
+
+## Example Outputs
+
+### Graphical User Interface
+
+![Satellite Tracklet Generator interface](docs/images/application_interface.png)
+![Satellite Tracklet Generator interface](docs/images/application_interface2.png)
+
+### Synthetic Satellite Tracklet
+
+![Synthetic satellite tracklet](docs/images/synthetic_tracklet.png)
+
+### Stellarium Visualisation
+
+![Stellarium visualisation](docs/images/stellarium_visualisation.png)
 
 ## Software Workflow
 
