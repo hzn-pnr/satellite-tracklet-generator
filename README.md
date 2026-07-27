@@ -92,9 +92,6 @@ Background-star catalogue query
 Photon-based image simulation
         │
         ▼
-Telescope, atmosphere and detector modelling
-        │
-        ▼
 FITS image generation
         │
         ▼
