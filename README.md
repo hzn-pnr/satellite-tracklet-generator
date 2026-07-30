@@ -1,22 +1,22 @@
-# satellite-tracklet-generator
+# Satellite Tracklet Generator
 
-This repository contains the optical tracklet simulation software developed by Pınar Hazan as part of her MSc thesis. It provides a unified environment for generating synthetic astronomical images of satellite tracklets, combining a PyQt5-based graphical interface with independent Python modules for each simulation stage.
+This repository contains the optical tracklet simulation software developed by **Pınar Hazan** as part of her MSc thesis. It provides a unified environment for generating synthetic astronomical images of satellite tracklets by combining a PyQt5-based graphical interface with independent Python modules representing different stages of the simulation.
 
-Users input simulation parameters through the GUI, which passes them to the underlying modules responsible for:
+Users define the observation, orbit, telescope, detector, and environmental parameters through the graphical interface. The software then calculates the apparent motion of the satellite, generates a realistic background star field, and renders the resulting observation.
 
-- Satellite motion simulation — simulating the satellite's trajectory across the field of view
-- Background star field generation — populating the scene with realistic stellar backgrounds
-- Image synthesis — rendering the final visual output
+The main outputs are synthetic astronomical images in **FITS** and **PNG** formats, representing what a telescope sensor would capture during a satellite transit. The generated images can also be displayed in Stellarium for spatial and temporal visual assessment.
 
-The pipeline produces synthetic astronomical images in both FITS and PNG formats, replicating what a telescope's sensor would capture during a satellite transit. Generated images can additionally be imported into Stellarium for visual validation and assessment.
+---
 
 ## Software Foundations and Extensions
 
-This project builds upon **SPIMT** and **StellariumRC**, which were adapted for the integrated tracklet simulation workflow.
+This project builds upon **SPIMT** and **StellariumRC**, which were adapted for the integrated satellite-tracklet simulation workflow.
 
-[SPIMT](https://github.com/Dujunju/SPIMT) is a photon-mapping-based method for generating realistic photometric images of moving targets. Its two-stage workflow—photon tracing and image rendering—considers the telescope tracking mode, point spread function, light sources, and CCD characteristics. Within this project, SPIMT was extended to support satellite trajectory calculations using **SP3 precise-orbit data**, in addition to its original TLE-based workflow.
+[SPIMT](https://github.com/Dujunju/SPIMT) is a photon-mapping-based method for generating realistic photometric images of moving targets. Its photon-tracing and image-rendering stages consider telescope tracking mode, point spread function, light sources, and CCD characteristics. Within this project, SPIMT was extended to support satellite trajectory calculations using **SP3 precise-orbit data**, in addition to its original TLE-based workflow.
 
 [StellariumRC](https://github.com/k96e/StellariumRC) provides access to the Stellarium Remote Control API. Its modules were adapted and integrated to display the generated images in Stellarium according to the correct observation time, observer location, and celestial position.
+
+---
 
 ## Thesis
 
@@ -28,9 +28,7 @@ This software was developed within the scope of the following MSc thesis:
 > Hacettepe University  
 > 2026
 
-Thesis link:
-
-[https://tez.yok.gov.tr/UlusalTezMerkezi/TezGoster?key=5T1_CZ5-UGb9QCmoURec4EMQht9TqDr4HGGTjeH8RuUm_cisInFxS0WwA3dpi2BJ]
+[View the thesis record in the Council of Higher Education National Thesis Center](https://tez.yok.gov.tr/UlusalTezMerkezi/TezGoster?key=5T1_CZ5-UGb9QCmoURec4EMQht9TqDr4HGGTjeH8RuUm_cisInFxS0WwA3dpi2BJ)
 
 ### Suggested Citation
 
@@ -47,11 +45,14 @@ Thesis link:
 
 When using this software in academic work, please cite both the thesis and this repository.
 
+---
+
 ## Example Outputs
 
 ### Graphical User Interface
 
 ![Satellite Tracklet Generator interface](docs/images/application_interface.png)
+
 ![Satellite Tracklet Generator interface](docs/images/application_interface2.png)
 
 ### Synthetic Satellite Tracklet
@@ -62,9 +63,11 @@ When using this software in academic work, please cite both the thesis and this 
 
 ![Stellarium visualisation](docs/images/stellarium_visualisation.png)
 
+---
+
 ## Software Workflow
 
-The software combines the individual simulation stages through a unified workflow.
+The software combines the individual simulation stages through the following workflow:
 
 ```text
 User-defined parameters
@@ -100,17 +103,23 @@ PNG conversion
         ▼
 Stellarium sky-overlay generation
 ```
+
 ---
+
 ## Requirements
 
 ### Software Requirements
 
+- Python 3.13
 - Stellarium desktop application
-- Internet connection for catalogue and TLE queries
+- Git
+- Internet connection for online catalogue and TLE queries
 
-### Python Requirements
+The software was developed and tested primarily on Windows 11.
 
-Python dependencies are listed in:
+### Python Dependencies
+
+The required Python packages are listed in:
 
 ```text
 requirements.txt
@@ -143,7 +152,7 @@ python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 ```
 
-### 3. Install Dependencies
+### 3. Install the Dependencies
 
 ```bash
 python -m pip install --upgrade pip
@@ -154,9 +163,9 @@ pip install -r requirements.txt
 
 ## Configuration
 
-Some machine-specific settings and account credentials are stored locally in a `config.ini` file.
+Machine-specific paths and optional Space-Track credentials are defined in the local `config.ini` file.
 
-Example configuration:
+Example:
 
 ```ini
 [spacetrack]
@@ -166,34 +175,50 @@ password = YOUR_SPACE_TRACK_PASSWORD
 [paths]
 stellarium_scripts = PATH_TO_STELLARIUM_SCRIPTS_DIRECTORY
 ```
----
 
-## Space-Track Configuration
+Do not commit a `config.ini` file containing real account credentials.
 
-A Space-Track.org account is required only when the automatic TLE-retrieval functionality is used.
+### Space-Track Configuration
 
-Users may alternatively:
+A [Space-Track.org](https://www.space-track.org/) account is required only when the automatic TLE retrieval functionality is used.
 
-- Enter TLE lines manually
-- Use a local SP3 file
+The software can alternatively operate with:
 
-Enter the Space-Track account information into the local configuration file or through the relevant application configuration window.
+- TLE lines entered manually
+- A local SP3 precise-orbit file
+
+### Stellarium Scripts Directory
+
+The `stellarium_scripts` setting must point to the Stellarium `scripts` directory.
+
+Example:
+
+```ini
+[paths]
+stellarium_scripts = D:\Program Files\Stellarium\scripts
+```
+
+The application places generated visualisation images in the corresponding `images` subdirectory:
+
+```text
+D:\Program Files\Stellarium\scripts\images
+```
+
+The exact directory may differ depending on the Stellarium installation. Ensure that the selected directory exists and that the application has permission to write files into it.
 
 ---
 
 ## Stellarium Setup
 
-Stellarium must be installed separately. It is not distributed with this repository.
+Stellarium must be installed separately and is not distributed with this repository.
 
 ### 1. Install Stellarium
 
-Download and install the desktop version of Stellarium:
-
-[Stellarium Official Website](https://stellarium.org/)
+Download and install the desktop application from the [official Stellarium website](https://stellarium.org/).
 
 ### 2. Enable the Remote Control Plugin
 
-The Stellarium Remote Control plugin must be enabled before the generated images can be visualised.
+The Remote Control plugin must be active before the generated images can be displayed in Stellarium.
 
 1. Open Stellarium.
 2. Open the **Configuration Window**.
@@ -203,7 +228,7 @@ The Stellarium Remote Control plugin must be enabled before the generated images
 6. Restart Stellarium.
 7. Open the Remote Control plugin settings.
 8. Start the Remote Control server.
-9. Enable automatic server startup if desired.
+9. Optionally enable automatic server startup.
 10. Keep the port set to `8090`.
 
 The software communicates with Stellarium through:
@@ -212,23 +237,15 @@ The software communicates with Stellarium through:
 http://127.0.0.1:8090
 ```
 
-The connection can be tested by opening the following address in a browser while Stellarium is running:
+The connection can be tested in a browser while Stellarium is running:
 
 ```text
 http://localhost:8090
 ```
 
-### 3. Configure the Stellarium Scripts Directory
+### Generated Stellarium Files
 
-A typical Stellarium scripts path on Windows is:
-
-```text
-C:\Users\<USERNAME>\AppData\Roaming\Stellarium\scripts
-```
-
-Select this directory through the application configuration menu or add it to `config.ini`.
-
-The software may create the following files in the scripts directory:
+During the visualisation stage, the application may create the following files:
 
 ```text
 scripts/
@@ -243,20 +260,49 @@ scripts/
 
 ## Running the Application
 
-Before starting the simulation:
-
-1. Start Stellarium.
-2. Confirm that the Remote Control server is running.
-3. Activate the Python virtual environment.
-4. Start the graphical application.
+Activate the Python virtual environment and start the graphical application:
 
 ```bash
 python gui.py
 ```
+
+For Stellarium visualisation, start Stellarium and confirm that the Remote Control server is active before running the simulation.
+
 ---
 
+## Demo Application
 
+A sample parameter file is provided in the `demo/` directory. It can be used to test the software without entering all simulation parameters manually.
 
+### 1. Load the Demo File
 
+From the application menu, select:
 
+```text
+File → Upload File
+```
 
+Choose the sample `.txt` file located in the `demo/` directory. The corresponding input fields in the graphical interface will be populated automatically.
+
+### 2. Review the Configuration
+
+Before starting the demo:
+
+- Confirm that Space-Track credentials are defined in `config.ini` when automatic TLE retrieval is required.
+- Confirm that the Stellarium scripts directory is correctly defined when Stellarium visualisation will be used.
+- Confirm that the output directory specified in the demo parameter file exists.
+
+### 3. Run the Simulation
+
+Click **Run** to start the simulation.
+
+Each processing stage is displayed in the application log console, including orbit processing, satellite-motion calculation, background-star generation, image simulation, and output generation.
+
+If an error occurs, the simulation can be stopped, the relevant parameter or configuration setting can be corrected, and the process can then be restarted.
+
+### 4. Review the Results
+
+The generated FITS and PNG files are saved in the output directory specified in the demo parameter file.
+
+- If Stellarium is not running, the simulation outputs are still generated and saved locally.
+- If Stellarium is running and the Remote Control plugin is active, the generated image is additionally displayed in Stellarium according to the observation time, observer location, and celestial coordinates defined in the input file.
